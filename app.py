@@ -21,12 +21,13 @@ def predict_image_file():
             img = preprocess_img(request.files['file'].stream)
             pred = predict_result(img)
             return render_template("result.html", predictions=str(pred))
-    except Exception as e: # Fixed bare except block
+    # pylint: disable=broad-exception-caught
+    except Exception as e:
         error = f"File cannot be processed. {str(e)}"
         return render_template("result.html", err=error)
-    
     return render_template("index.html")
 
 # Driver code
 if __name__ == "__main__":
     app.run(port=9000, debug=True)
+    
